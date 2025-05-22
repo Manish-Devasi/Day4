@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendy Tees - Shop</title>
+    <!-- Tailwind CSS with DaisyUI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Animation for cart items */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .animate-slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        
+        /* DaisyUI theme config */
+        :root {
+            --rounded-box: 1rem;
+            --rounded-btn: 0.5rem;
+            --rounded-badge: 1.9rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-base-100 text-base-content" data-theme="light">
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" class="hidden fixed bottom-0 left-0 right-0 bg-neutral text-neutral-content p-4 shadow-lg z-50">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex-1">
+                <p>We use cookies to enhance your experience. By continuing to browse, you agree to our use of cookies.</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="cookie-accept" class="btn btn-sm btn-primary">Accept</button>
+                <button id="cookie-decline" class="btn btn-sm btn-ghost">Decline</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-base-100 shadow-sm">
+        <div class="navbar container mx-auto">
+            <div class="navbar-start">
+                <div class="dropdown">
+                    <label tabindex="0" class="btn btn-ghost lg:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                    </label>
+                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                        <li><a href="index.html"><i class="fas fa-home mr-2"></i> Home</a></li>
+                        <li><a href="#products"><i class="fas fa-box-open mr-2"></i>Products</a></li>
+                        <li><a href="#testimonials"><i class="fas fa-people-group mr-2"></i>Testimonials</a></li>
+                        <li><a href="#about"><i class="fas fa-building mr-2"></i>About</a></li>
+                    </ul>
+                </div>
+                <a class="btn btn-ghost normal-case text-xl gap-2">
+                    <i class="fas fa-tshirt text-primary"></i>
+                    <span>Trendy Tees</span>
+                </a>
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul class="menu menu-horizontal px-1 gap-1">
+                    <li><a href="index.html"><i class="fas fa-home mr-2"></i>Home</a></li>
+                    <li><a href="#products"><i class="fas fa-box-open mr-2"></i>Products</a></li>
+                    <li><a href="#testimonials"><i class="fas fa-people-group mr-2"></i>Testimonials</a></li>
+                    <li><a href="#about"><i class="fas fa-building mr-2"></i>About</a></li>
+                </ul>
+            </div>
+            <div class="navbar-end gap-2">
+
+                 <label class="swap swap-rotate">
+    <!-- Hidden checkbox -->
+    <input type="checkbox" id="theme-toggle" class="theme-checkbox" />
+    
+    <!-- Sun icon for light mode -->
+    <svg class="swap-on fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/>
+    </svg>
+    
+    <!-- Moon icon for dark mode -->
+    <svg class="swap-off fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/>
+    </svg>
+  </label>
+                <div class="indicator">
+                    <span id="cart-count" class="indicator-item badge badge-primary">0</span> 
+                    <button id="cart-btn" class="btn btn-ghost btn-circle">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero min-h-[400px]" style="background-image: url(https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80);">
+            <div class="hero-overlay bg-opacity-60"></div>
+            <div class="hero-content text-center text-neutral-content">
+                <div class="max-w-md">
+                    <h1 class="mb-5 text-5xl font-bold">Trendy Tees for Everyone</h1>
+                    <p class="mb-5">Discover our latest collection of comfortable and stylish t-shirts for every occasion</p>
+                    <a href="#products" class="btn btn-primary">Shop Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="container mx-auto py-12 px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Our Collection</h2>
+                <div class="flex flex-wrap justify-center gap-4 mb-6">
+                    <select id="sort-by" class="select select-bordered w-full max-w-xs">
+                        <option disabled selected>Sort by</option>
+                        <option value="default">Default</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name">Name</option>
+                    </select>
+                    <select id="filter-by" class="select select-bordered w-full max-w-xs">
+                        <option value="all">All Categories</option>
+                        <option value="men">Men</option>
+                        <option value="women">Women</option>
+                        <option value="kids">Kids</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="products-grid">
+                <!-- Product cards will be inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Testimonials Carousel -->
+        <section id="testimonials" class="bg-base-200 py-12">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12">What Our Customers Say</h2>
+                
+                <div class="carousel w-full">
+                    <div id="testimonial1" class="carousel-item w-full">
+                        <div class="card w-full bg-base-100 shadow-xl">
+                            <div class="card-body items-center text-center">
+                                <div class="avatar">
+                                    <div class="w-24 rounded-full">
+                                        <img src="https://randomuser.me/api/portraits/women/43.jpg" />
+                                    </div>
+                                </div>
+                                <h3 class="card-title">Sarah Johnson</h3>
+                                <div class="rating rating-md">
+                                    <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-1" class="mask mask-star-2 bg-orange-400" checked />
+                                </div>
+                                <p>"The quality of these t-shirts is amazing! I've bought three already and they're my favorite pieces in my wardrobe now."</p>
+                            </div>
+                        </div>
+                    </div> 
+                    <div id="testimonial2" class="carousel-item w-full">
+                        <div class="card w-full bg-base-100 shadow-xl">
+                            <div class="card-body items-center text-center">
+                                <div class="avatar">
+                                    <div class="w-24 rounded-full">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" />
+                                    </div>
+                                </div>
+                                <h3 class="card-title">Michael Chen</h3>
+                                <div class="rating rating-md">
+                                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                                </div>
+                                <p>"Great fit and comfortable fabric. The shipping was super fast too. Will definitely order again!"</p>
+                            </div>
+                        </div>
+                    </div> 
+                    <div id="testimonial3" class="carousel-item w-full">
+                        <div class="card w-full bg-base-100 shadow-xl">
+                            <div class="card-body items-center text-center">
+                                <div class="avatar">
+                                    <div class="w-24 rounded-full">
+                                        <img src="https://randomuser.me/api/portraits/women/65.jpg" />
+                                    </div>
+                                </div>
+                                <h3 class="card-title">Emma Rodriguez</h3>
+                                <div class="rating rating-md">
+                                    <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" checked />
+                                    <input type="radio" name="rating-3" class="mask mask-star-2 bg-orange-400" checked />
+                                </div>
+                                <p>"I bought the kids' tees for my son and daughter. They love the designs and the fabric is so soft. Highly recommend!"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center w-full py-2 gap-2">
+                    <a href="#testimonial1" class="btn btn-xs">1</a> 
+                    <a href="#testimonial2" class="btn btn-xs">2</a> 
+                    <a href="#testimonial3" class="btn btn-xs">3</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="container mx-auto py-12 px-4">
+            <div class="flex flex-col lg:flex-row gap-8 items-center">
+                <div class="lg:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="About Us" class="rounded-lg shadow-2xl w-full">
+                </div>
+                <div class="lg:w-1/2">
+                    <h2 class="text-3xl font-bold mb-6">About Trendy Tees</h2>
+                    <p class="mb-4">Founded in 2018, Trendy Tees started with a simple mission: to create high-quality, comfortable t-shirts with unique designs that people love to wear every day.</p>
+                    <p class="mb-4">All our products are made from 100% organic cotton and printed with eco-friendly inks. We're committed to sustainable fashion without compromising on style.</p>
+                    <div class="stats shadow">
+                        <div class="stat">
+                            <div class="stat-figure text-primary">
+                                <i class="fas fa-tshirt text-3xl"></i>
+                            </div>
+                            <div class="stat-title">Products Sold</div>
+                            <div class="stat-value text-primary">25K+</div>
+                            <div class="stat-desc">Since 2018</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-figure text-secondary">
+                                <i class="fas fa-smile text-3xl"></i>
+                            </div>
+                            <div class="stat-title">Happy Customers</div>
+                            <div class="stat-value text-secondary">98%</div>
+                            <div class="stat-desc">Satisfaction rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="bg-primary text-primary-content py-12">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+                <p class="mb-6 max-w-2xl mx-auto">Subscribe to our newsletter for exclusive offers, new arrivals, and style tips.</p>
+                <div class="flex flex-col sm:flex-row gap-2 justify-center max-w-md mx-auto">
+                    <input type="email" placeholder="Your email" class="input input-bordered w-full text-black"> 
+                    <button class="btn btn-secondary">Subscribe</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Drawer -->
+    <div class="drawer drawer-end z-50">
+        <input id="cart-drawer" type="checkbox" class="drawer-toggle" /> 
+        <div class="drawer-side">
+            <label for="cart-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+            <div class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">Your Cart</h3>
+                    <label for="cart-drawer" class="btn btn-sm btn-circle">
+                        <i class="fas fa-times"></i>
+                    </label>
+                </div>
+                
+                <div id="cart-items" class="flex-1 overflow-y-auto">
+                    <!-- Cart items will be inserted here by JavaScript -->
+                    <div class="text-center py-8">
+                        <i class="fas fa-shopping-cart text-4xl text-gray-400 mb-4"></i>
+                        <p>Your cart is empty</p>
+                    </div>
+                </div>
+                
+                <div class="border-t pt-4">
+                    <div class="flex justify-between mb-4">
+                        <span class="font-bold">Total:</span>
+                        <span id="cart-total" class="font-bold">$0.00</span>
+                    </div>
+                    <button id="checkout-btn" class="btn btn-primary w-full">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer p-10 bg-neutral text-neutral-content">
+        <div>
+            <span class="footer-title">Services</span> 
+            <a class="link link-hover">Branding</a>
+            <a class="link link-hover">Design</a>
+            <a class="link link-hover">Marketing</a>
+            <a class="link link-hover">Advertisement</a>
+        </div> 
+        <div>
+            <span class="footer-title">Company</span> 
+            <a class="link link-hover">About us</a>
+            <a class="link link-hover">Contact</a>
+            <a class="link link-hover">Jobs</a>
+            <a class="link link-hover">Press kit</a>
+        </div> 
+        <div>
+            <span class="footer-title">Legal</span> 
+            <a class="link link-hover">Terms of use</a>
+            <a class="link link-hover">Privacy policy</a>
+            <a class="link link-hover">Cookie policy</a>
+        </div>
+        <div>
+            <span class="footer-title">Newsletter</span> 
+            <div class="form-control w-80">
+                <label class="label">
+                    <span class="label-text text-neutral-content">Enter your email address</span>
+                </label> 
+                <div class="relative">
+                    <input type="text" placeholder="username@site.com" class="input input-bordered w-full pr-16 text-black" /> 
+                    <button class="btn btn-primary absolute top-0 right-0 rounded-l-none">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <footer class="footer px-10 py-4 border-t bg-neutral text-neutral-content border-base-300">
+        <div class="items-center grid-flow-col">
+            <i class="fas fa-tshirt text-2xl text-primary"></i>
+            <p>Trendy Tees Ltd. <br>Providing stylish t-shirts since 2018</p>
+        </div> 
+        <div class="md:place-self-center md:justify-self-end">
+            <div class="grid grid-flow-col gap-4">
+                <a><i class="fab fa-twitter text-xl"></i></a> 
+                <a><i class="fab fa-instagram text-xl"></i></a> 
+                <a><i class="fab fa-facebook text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast toast-top toast-end hidden">
+        <div class="alert alert-success">
+            <span id="toast-message">Item added to cart!</span>
+        </div>
+    </div>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "Classic White Tee",
+                price: 24.99,
+                category: "men",
+                image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                description: "Our classic white t-shirt made from 100% organic cotton for ultimate comfort.",
+                sizes: ["S", "M", "L", "XL"]
+            },
+            {
+                id: 2,
+                name: "Black Oversized Tee",
+                price: 29.99,
+                category: "women",
+                image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                description: "Trendy oversized black t-shirt perfect for a casual yet stylish look.",
+                sizes: ["S", "M", "L"]
+            },
+            {
+                id: 3,
+                name: "Graphic Print Tee",
+                price: 32.99,
+                category: "men",
+                image: "https://images.unsplash.com/photo-1527719327859-c6ce80353573?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                description: "Unique graphic print t-shirt that makes a statement wherever you go.",
+                sizes: ["M", "L", "XL"]
+            },
+            {
+                id: 4,
+                name: "Striped Crewneck Tee",
+                price: 27.99,
+                category: "women",
+                image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                description: "Classic striped crewneck t-shirt for a timeless casual look.",
+                sizes: ["XS", "S", "M", "L"]
+            },
+            {
+                id: 5,
+                name: "Pocket Detail Tee",
+                price: 26.99,
+                category: "men",
+                image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                description: "Simple t-shirt with a chest pocket for added functionality and style.",
+                sizes: ["S", "M", "L", "XL", "XXL"]
+            },
+            {
+                id: 6,
+                name: "V-Neck Basic Tee",
+                price: 22.99,
+                category: "women",
+                image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                description: "Essential v-neck t-shirt that pairs perfectly with any outfit.",
+                sizes: ["XS", "S", "M"]
+            },
+            {
+                id: 7,
+                name: "Kids Dinosaur Tee",
+                price: 19.99,
+                category: "kids",
+                image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                description: "Fun dinosaur graphic tee for kids who love adventure.",
+                sizes: ["4-5", "6-7", "8-9"]
+            },
+            {
+                id: 8,
+                name: "Kids Rainbow Tee",
+                price: 21.99,
+                category: "kids",
+                image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                description: "Colorful rainbow design that kids will love to wear every day.",
+                sizes: ["4-5", "6-7", "8-9", "10-11"]
+            }
+        ];
+
+        // Cart functionality
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // DOM Elements
+        const productsGrid = document.getElementById('products-grid');
+        const cartBtn = document.getElementById('cart-btn');
+        const cartCount = document.getElementById('cart-count');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const sortBy = document.getElementById('sort-by');
+        const filterBy = document.getElementById('filter-by');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const themeToggle = document.getElementById('theme-toggle');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const cookieConsent = document.getElementById('cookie-consent');
+        const cookieAccept = document.getElementById('cookie-accept');
+        const cookieDecline = document.getElementById('cookie-decline');
+
+        // Display products
+        function displayProducts(productsToDisplay) {
+            productsGrid.innerHTML = '';
+            
+            productsToDisplay.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300';
+                productCard.innerHTML = `
+                    <figure class="px-4 pt-4">
+                        <img src="${product.image}" alt="${product.name}" class="rounded-xl h-64 w-full object-cover" />
+                    </figure>
+                    <div class="card-body">
+                        <h3 class="card-title">${product.name}</h3>
+                        <p class="text-lg font-bold text-primary">$${product.price.toFixed(2)}</p>
+                        <div class="card-actions justify-end">
+                            <button class="btn btn-primary add-to-cart" data-id="${product.id}">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+            
+            // Add event listeners to "Add to Cart" buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', addToCart);
+            });
+        }
+
+        // Add to cart function
+        function addToCart(e) {
+            const productId = parseInt(e.target.getAttribute('data-id'));
+            const product = products.find(p => p.id === productId);
+            
+            // Check if product is already in cart
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1,
+                    size: product.sizes[0] // Default to first size
+                });
+            }
+            
+            // Show toast notification
+            showToast(`${product.name} added to cart!`);
+            
+            updateCart();
+            saveCartToLocalStorage();
+        }
+
+        // Remove from cart function
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+            saveCartToLocalStorage();
+        }
+
+        // Update quantity in cart
+        function updateQuantity(productId, newQuantity) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity = parseInt(newQuantity);
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCart();
+                    saveCartToLocalStorage();
+                }
+            }
+        }
+
+        // Update size in cart
+        function updateSize(productId, newSize) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.size = newSize;
+                saveCartToLocalStorage();
+            }
+        }
+
+        // Update cart UI
+        function updateCart() {
+            // Update cart count
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Update cart items
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-shopping-cart text-4xl text-gray-400 mb-4"></i>
+                        <p>Your cart is empty</p>
+                    </div>
+                `;
+                cartTotal.textContent = '$0.00';
+                checkoutBtn.disabled = true;
+                return;
+            }
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'animate-slide-in';
+                cartItem.style.animationDelay = `${index * 0.1}s`;
+                cartItem.innerHTML = `
+                    <div class="flex gap-4 mb-4 pb-4 border-b border-base-300">
+                        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <h4 class="font-bold">${item.name}</h4>
+                            <p class="text-primary font-bold">$${item.price.toFixed(2)}</p>
+                            
+                            <div class="flex items-center gap-2 mt-1">
+                                <select class="select select-bordered select-xs size-select" data-id="${item.id}">
+                                    ${item.sizes.map(size => 
+                                        `<option value="${size}" ${item.size === size ? 'selected' : ''}>${size}</option>`
+                                    ).join('')}
+                                </select>
+                                
+                                <div class="join">
+                                    <button class="join-item btn btn-xs" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                                    <input type="number" min="1" value="${item.quantity}" 
+                                        class="join-item btn btn-xs w-12 text-center quantity-input" 
+                                        data-id="${item.id}" 
+                                        onchange="updateQuantity(${item.id}, this.value)" />
+                                    <button class="join-item btn btn-xs" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-ghost btn-sm remove-item" data-id="${item.id}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = parseInt(e.target.closest('button').getAttribute('data-id'));
+                    removeFromCart(productId);
+                });
+            });
+            
+            // Add event listeners to size selects
+            document.querySelectorAll('.size-select').forEach(select => {
+                select.addEventListener('change', (e) => {
+                    const productId = parseInt(e.target.getAttribute('data-id'));
+                    const newSize = e.target.value;
+                    updateSize(productId, newSize);
+                });
+            });
+            
+            // Update total
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+            checkoutBtn.disabled = false;
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Filter and sort products
+        function filterAndSortProducts() {
+            let filteredProducts = [...products];
+            
+            // Filter by category
+            const category = filterBy.value;
+            if (category !== 'all') {
+                filteredProducts = filteredProducts.filter(product => product.category === category);
+            }
+            
+            // Sort products
+            const sortValue = sortBy.value;
+            switch (sortValue) {
+                case 'price-low':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name':
+                    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                default:
+                    // Default sorting (by ID)
+                    filteredProducts.sort((a, b) => a.id - b.id);
+            }
+            
+            displayProducts(filteredProducts);
+        }
+
+        // Save cart to localStorage
+        function saveCartToLocalStorage() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Load cart from localStorage
+        function loadCartFromLocalStorage() {
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCart();
+            }
+        }
+
+        // Theme toggle functionality
+        function setupThemeToggle() {
+            // Check for saved theme preference or use preferred color scheme
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.checked = true;
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeToggle.checked = false;
+            }
+            
+            // Handle theme toggle
+            themeToggle.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+
+        // Cookie consent functionality
+        function setupCookieConsent() {
+            const cookiesAccepted = localStorage.getItem('cookiesAccepted');
+            
+            if (cookiesAccepted === null) {
+                // Show consent banner if no preference set
+                setTimeout(() => {
+                    cookieConsent.classList.remove('hidden');
+                }, 1000);
+            }
+            
+            cookieAccept.addEventListener('click', () => {
+                localStorage.setItem('cookiesAccepted', 'true');
+                cookieConsent.classList.add('hidden');
+                // Here you would typically set your analytics cookies
+            });
+            
+            cookieDecline.addEventListener('click', () => {
+                localStorage.setItem('cookiesAccepted', 'false');
+                cookieConsent.classList.add('hidden');
+            });
+        }
+
+        // Initialize
+        function init() {
+            displayProducts(products);
+            loadCartFromLocalStorage();
+            setupThemeToggle();
+            setupCookieConsent();
+            
+            // Make functions available globally for inline event handlers
+            window.updateQuantity = updateQuantity;
+            window.updateSize = updateSize;
+        }
+
+        // Event Listeners
+        cartBtn.addEventListener('click', () => {
+            document.getElementById('cart-drawer').checked = true;
+        });
+        
+        sortBy.addEventListener('change', filterAndSortProducts);
+        filterBy.addEventListener('change', filterAndSortProducts);
+        
+        checkoutBtn.addEventListener('click', () => {
+            showToast('Checkout functionality coming soon!');
+        });
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
